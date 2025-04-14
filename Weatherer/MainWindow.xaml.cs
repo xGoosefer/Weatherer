@@ -17,7 +17,7 @@ namespace Weatherer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string APIKey = ""; // the secret
+        private string APIKey = "2c5e0ffd4d8a0dbbd84a79998ff57a8c"; // the secret
         private string fileName;
         public MainWindow()
         {
@@ -27,6 +27,7 @@ namespace Weatherer
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             fileName = "http://api.openweathermap.org/data/2.5/weather?q=Chicago&mode=xml&units=imperial&APPID=" + APIKey;
+            WeatherData.Text = CurrentTemperature();
         }
 
         public string CurrentTemperature()
@@ -34,9 +35,11 @@ namespace Weatherer
             string description = "Cloudy";
             string temperatureString = "60";
             float temperature = 0;
+
             XDocument xdoc = XDocument.Load(fileName);
             var tempList = xdoc.Descendants()
                           .Where(x => x.Name == "temperature" || x.Name == "weather");
+
             foreach (XElement node in tempList)
             {
                 if (node.Name == "temperature")
